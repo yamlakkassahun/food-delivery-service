@@ -1,6 +1,6 @@
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
-import { CreateUserDto } from '@app/users/dto/create-user.dto';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
 import { LoginUserDto } from '../dto/create-auth.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -12,7 +12,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() loginUserDto: LoginUserDto) {
     return this.authService.signIn(loginUserDto);
