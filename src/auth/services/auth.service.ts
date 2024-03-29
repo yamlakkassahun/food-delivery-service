@@ -18,12 +18,12 @@ export class AuthService {
     private readonly UserRepository: Repository<User>,
   ) {}
 
-  async signToken(id: number, name: string): Promise<{ access_token: string }> {
+  async signToken(id: number, name: string): Promise<{ token: string }> {
     const payload = { sub: id, username: name };
-    return { access_token: await this.jwtService.signAsync(payload) };
+    return { token: await this.jwtService.signAsync(payload) };
   }
 
-  async signIn(loginUserDto: LoginUserDto): Promise<{ access_token: string }> {
+  async signIn(loginUserDto: LoginUserDto): Promise<{ token: string }> {
     const { email, password } = loginUserDto;
     const user = await this.UserRepository.findOne({ where: { email } });
 
@@ -44,9 +44,7 @@ export class AuthService {
     return this.signToken(user.id, user.name);
   }
 
-  async signUp(
-    createUserDto: CreateUserDto,
-  ): Promise<{ access_token: string }> {
+  async signUp(createUserDto: CreateUserDto): Promise<{ token: string }> {
     const { name, email, phoneNumber, password, address, role } = createUserDto;
     const userEmail = await this.UserRepository.findOne({
       where: { email },
